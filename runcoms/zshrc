@@ -80,8 +80,8 @@ alias flushdns='dscacheutil -flushcache'
 
 # SYSTEMS OPERATIONS & INFORMATION
 # --------------------------------
-alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
-alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
+alias finderShowHidden='defaults write com.apple.finder AppleShowAllFiles TRUE; killall Finder /System/Library/CoreServices/Finder.app'
+alias finderHideHidden='defaults write com.apple.finder AppleShowAllFiles FALSE; killall Finder /System/Library/CoreServices/Finder.app'
 
 
 # ########################################################################
@@ -93,4 +93,6 @@ alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
 docker-ip() {
   boot2docker ip 2> /dev/null
 }
+
+timer() { sleep $(($1*60)); terminal-notifier -message "${*:2}" }
 
