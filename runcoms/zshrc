@@ -11,3 +11,4 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+export HOMEBREW_GITHUB_API_TOKEN=ef65fd8844f96eb5fd88d574c42b73669873295b
