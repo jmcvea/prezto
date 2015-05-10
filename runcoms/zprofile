@@ -16,9 +16,10 @@ fi
 #
 # Editors
 #
-
-export EDITOR='nano'
-export VISUAL='nano'
+export SUBLIME='subl'
+export EDITOR='vim'
+#export VISUAL='subl --wait'
+export VISUAL='vim'
 export PAGER='less'
 
 #
