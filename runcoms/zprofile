@@ -48,6 +48,35 @@ path=(
   $path
 )
 
+# ########################################################################
+# Environment
+# ########################################################################
+
+# Set PATH so it includes user's private bin if it exists
+if [ -d "${HOME}/bin" ] ; then
+  PATH="${HOME}/bin:${PATH}"
+fi
+if [ -d "${HOME}/.local/bin" ] ; then
+  PATH="${HOME}/.local/bin:${PATH}"
+fi
+
+export NVM_DIR=~/.nvm
+
+export RI="--format ansi -T --width 70"
+
+# set the colors for the 'ls' command.  See man page for ls
+export LSCOLORS=gxfxcxdxbxegedabagacad
+
+export HOMEBREW_GITHUB_API_TOKEN=ef65fd8844f96eb5fd88d574c42b73669873295b
+
+# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+#PATH=/usr/local/share/npm/bin:$PATH
+
+PERL_MB_OPT="--install_base \"/Users/jimmcvea/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/jimmcvea/perl5"; export PERL_MM_OPT;
+PERL5LIB="/Users/jimmcvea/perl5/lib/perl5"; export PERL5LIB;
+
+
 #
 # Less
 #
