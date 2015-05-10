@@ -11,4 +11,99 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+# ########################################################################
+# Environment
+# ########################################################################
+
+# Set PATH so it includes Homebrew's sbin if it exists
+if [ -d "/usr/local/sbin" ] ; then
+  PATH="/usr/local/sbin:${PATH}"
+fi
+
+# Set PATH so it includes user's private bin if it exists
+if [ -d "${HOME}/bin" ] ; then
+  PATH="${HOME}/bin:${PATH}"
+fi
+if [ -d "${HOME}/.local/bin" ] ; then
+  PATH="${HOME}/.local/bin:${PATH}"
+fi
+# Load NVM
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+# Load RVM into a shell session *as a function*
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+export RI="--format ansi -T --width 70"
+
+# set the colors for the 'ls' command.  See man page for ls
+export LSCOLORS=gxfxcxdxbxegedabagacad
+
+export EDITOR=vim
+
 export HOMEBREW_GITHUB_API_TOKEN=ef65fd8844f96eb5fd88d574c42b73669873295b
+
+# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=/usr/local/share/npm/bin:$PATH
+
+PERL_MB_OPT="--install_base \"/Users/jimmcvea/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/jimmcvea/perl5"; export PERL_MM_OPT;
+PERL5LIB="/Users/jimmcvea/perl5/lib/perl5"; export PERL5LIB;
+
+# ########################################################################
+# Aliases
+# ########################################################################
+
+# Default to human readable figures
+alias df='df -h'
+alias du='du -h'
+
+# Misc :)
+alias less='less -r'                          # raw control characters
+alias whence='type -a'                        # where, of a sort
+alias grep='grep --color'                     # show differences in colour
+alias egrep='egrep --color=auto'              # show differences in colour
+alias fgrep='fgrep --color=auto'              # show differences in colour
+alias rgrep='grep -r --color=auto'            # recursive grep in colour
+
+# Some shortcuts for different directory listings
+alias ls='ls -hGF'                             # classify files in colour
+alias dir='ls --color=auto --format=vertical'
+alias vdir='ls --color=auto --format=long'
+alias ll='ls -l'                              # long list
+alias la='ls -A'                              # all but . and ..
+alias l='ls -CF'                              #
+
+alias vi=vim
+
+#alias t='todo.sh -d /opt/todo.txt_cli-2.7/todo.cfg'
+alias t='todo.sh -d ~/Dropbox/todo/todo.cfg'
+#alias th='todo.sh -d ~/Dropbox/todo/todohome.cfg'
+
+alias mongodb='mongod --config /usr/local/etc/mongod.conf'
+alias dm='docker-machine'
+alias dmenv='function _dmenv(){ eval $(docker-machine env $1); };_dmenv'
+
+# NETWORKING
+# ----------
+alias openports='lsof -i | grep -E "(LISTEN|ESTABLISHED)"'
+alias myip='curl ip.appspot.com'
+alias flushdns='dscacheutil -flushcache'
+
+# SYSTEMS OPERATIONS & INFORMATION
+# --------------------------------
+alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
+alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
+
+
+# ########################################################################
+# Functions
+# ########################################################################
+
+# Ensure that stderr for docker ip commands is thrown away
+# see http://viget.com/extend/how-to-use-docker-on-os-x-the-missing-guide
+docker-ip() {
+  boot2docker ip 2> /dev/null
+}
+
