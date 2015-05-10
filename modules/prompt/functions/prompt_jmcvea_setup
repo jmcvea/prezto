@@ -37,10 +37,10 @@ function prompt_jmcvea_precmd {
 
   vcs_info 'prompt'
 
-  # if (( $+functions[node-info] )); then
-  #   node-info on
-  #   node-info
-  # fi
+  if (( $+functions[node-info] )); then
+    node-info on
+    node-info
+  fi
 }
 
 function prompt_jmcvea_setup {
