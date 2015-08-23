@@ -9,3 +9,14 @@
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+# ########################################################################
+# Environment
+# ########################################################################
+
+# Load NVM
+#source $(brew --prefix nvm)/nvm.sh
+
+# Setup Ruby
+eval "$(rbenv init -)"
+

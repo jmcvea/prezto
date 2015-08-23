@@ -16,9 +16,6 @@ fi
 # Environment
 # ########################################################################
 
-# Load NVM
-source $(brew --prefix nvm)/nvm.sh
-
 # Load RVM into a shell session *as a function*
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
@@ -49,6 +46,9 @@ alias t='todo.sh -d ~/Dropbox/todo/todo.cfg'
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
 alias dm='docker-machine'
 alias dmenv='function _dmenv(){ eval $(docker-machine env $1); };_dmenv'
+alias icenv='function _icenv(){ export DOCKER_HOST=tcp://containers-api.ng.bluemix.net:8443; export DOCKER_CERT_PATH=/Users/jimmcvea/.ice/certs; export DOCKER_TLS_VERIFY=1; };_icenv'
+
+alias git-pretty='git log --graph --oneline --all --decorate'
 
 # NETWORKING
 # ----------
@@ -73,4 +73,11 @@ docker-ip() {
 }
 
 timer() { sleep $(($1*60)); terminal-notifier -message "${*:2}" }
+
+new-card() {
+  local PRIORITY="${1}"
+  shift;
+  local CONTENT=$@
+  osascript $HOME/.local/bin/open-sticky.scpt $PRIORITY "$CONTENT"
+}
 
