@@ -14,6 +14,9 @@ fi
 # Add zsh-completions to $fpath.
 fpath=("${0:h}/external/src" $fpath)
 
+# Add custom zsh-completions to $fpath
+fpath=("${0:h}/custom/src" $fpath)
+
 # Load and initialize the completion system ignoring insecure directories.
 autoload -Uz compinit && compinit -i
 
