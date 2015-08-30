@@ -14,9 +14,5 @@ fi
 # Environment
 # ########################################################################
 
-# Load NVM
-#source $(brew --prefix nvm)/nvm.sh
 
-# Setup Ruby
-eval "$(rbenv init -)"
 
