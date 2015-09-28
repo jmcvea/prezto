@@ -123,9 +123,10 @@ function prompt_jmcvea_setup {
 
   # Define prompts.
   PROMPT="
-[${_prompt_jmcvea_colors[3]}%n%f@${_prompt_jmcvea_colors[3]}%m%f] ${_prompt_jmcvea_colors[5]}%~%f "'${vcs_info_msg_0_}'"
+[${_prompt_jmcvea_colors[3]}%n%f@${_prompt_jmcvea_colors[3]}%m%f] ${_prompt_jmcvea_colors[5]}%~%f "'${vcs_info_msg_0_}${git_info[rprompt]}'"
 "'$node_info[version]'"$ "
-  RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}${INSIDE_EMACS:+" %B%F{green}E%f%b"}${git_info[rprompt]}'
+#RPROMPT='${editor_info[overwrite]}${VIM:+" %B%F{green}V%f%b"}${INSIDE_EMACS:+" %B%F{green}E%f%b"}'
+# RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}${INSIDE_EMACS:+" %B%F{green}E%f%b"}${git_info[rprompt]}'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 }
 
