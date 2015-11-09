@@ -16,3 +16,6 @@
 [submodule "modules/prompt/functions/pure"]
 	path = modules/prompt/external/pure
 	url = https://github.com/sindresorhus/pure.git
+[submodule "modules/cf/functions"]
+	path = modules/cf/functions
+	url = http://github.com/frodenas/cf-zsh-autocomplete-plugin.git
