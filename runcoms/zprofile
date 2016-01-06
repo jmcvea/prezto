@@ -67,7 +67,9 @@ export RI="--format ansi -T --width 70"
 # set the colors for the 'ls' command.  See man page for ls
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
-export HOMEBREW_GITHUB_API_TOKEN=ef65fd8844f96eb5fd88d574c42b73669873295b
+if [ -f $HOME/.zprofile_secrets ] ; then
+  source $HOME/.zprofile_secrets
+fi
 
 # PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 #PATH=/usr/local/share/npm/bin:$PATH
