@@ -80,3 +80,35 @@ new-card() {
   osascript $HOME/.local/bin/open-sticky.scpt $PRIORITY "$CONTENT"
 }
 
+# Simplify the login process for CloudFoundry
+jcf() {
+  # A first arg may be the target env.  Default is YP
+  local TARGET=yp
+  if [ $# -ne 0 ]; then
+    local TARGET=${1}
+    shift;
+  fi
+
+  # A next arg may be a username.  Set a desired default first
+  local CF_USER=jimmcvea@us.ibm.com
+  if [ $# -ne 0 ]; then
+    local CF_USER=${1}
+    shift;
+  fi
+
+  local CF_HOME=$HOME/.cf/$TARGET/$CF_USER
+  #local CF_PWD=xxx
+
+  # Set the API URL
+  case $TARGET in
+    "ys1")  local CF_API=https://api.stage1.ng.bluemix.net;;
+    "lyp")  local CF_API=https://api.eu-gb.bluemix.net;;
+    "lys1") local CF_API=https://api.stage1.eu-gb.bluemix.net;;
+    "syp")  local CF_API=https://api.au-syd.bluemix.net;;
+    *)      local CF_API=https://api.ng.bluemix.net;;
+  esac
+
+  # Perform the login
+  cf login -u $CF_USER -a $CF_API -p $CF_PWD $*
+}
+
