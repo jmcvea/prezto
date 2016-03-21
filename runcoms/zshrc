@@ -112,3 +112,5 @@ jcf() {
   cf login -u $CF_USER -a $CF_API -p $CF_PWD $*
 }
 
+### Added by the Bluemix CLI
+source /usr/local/Bluemix/bx/zsh_autocomplete
