@@ -112,5 +112,10 @@ jcf() {
   cf login -u $CF_USER -a $CF_API -p $CF_PWD $*
 }
 
+# Wrap OpenStack client calls with a docker image
+dosc() {
+  docker run -ti --rm -v $PWD:/data --env-file ${OSC_RC_ENV_FILE:-~/.osc_rc.env} -e "OS_PASSWORD=$CF_PWD" openstack-client ${*}
+}
+
 ### Added by the Bluemix CLI
 source /usr/local/Bluemix/bx/zsh_autocomplete
