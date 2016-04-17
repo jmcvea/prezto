@@ -52,6 +52,9 @@ alias mongodb='mongod --config /usr/local/etc/mongod.conf'
 alias dm='docker-machine'
 alias dmenv='function _dmenv(){ eval $(docker-machine env $1); };_dmenv'
 alias icenv='function _icenv(){ export DOCKER_HOST=tcp://containers-api.ng.bluemix.net:8443; export DOCKER_CERT_PATH=/Users/jimmcvea/.ice/certs; export DOCKER_TLS_VERIFY=1; };_icenv'
+alias openstack='dosc openstack'
+# alias Whisk client calls with a docker image
+alias wsk='docker run -ti --rm -v $PWD:/data --env-file ${WSK_PROPS_FILE:-~/.wskprops} jmcvea/whisk-client'
 
 alias git-pretty='git log --graph --oneline --all --decorate'
 
@@ -114,8 +117,9 @@ jcf() {
 
 # Wrap OpenStack client calls with a docker image
 dosc() {
-  docker run -ti --rm -v $PWD:/data --env-file ${OSC_RC_ENV_FILE:-~/.osc_rc.env} -e "OS_PASSWORD=$CF_PWD" openstack-client ${*}
+  docker run -ti --rm -v $PWD:/data --env-file ${OSC_RC_ENV_FILE:-~/.osc_rc.env} -e "OS_PASSWORD=$CF_PWD" jmcvea/openstack-client ${*}
 }
+
 
 ### Added by the Bluemix CLI
 source /usr/local/Bluemix/bx/zsh_autocomplete
