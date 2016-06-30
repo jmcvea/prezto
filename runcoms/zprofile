@@ -78,6 +78,14 @@ PERL_MB_OPT="--install_base \"/Users/jimmcvea/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/jimmcvea/perl5"; export PERL_MM_OPT;
 PERL5LIB="/Users/jimmcvea/perl5/lib/perl5"; export PERL5LIB;
 
+#
+# Go
+#
+# As of go 1.2, a valid GOPATH is required to use the `go get` command:
+#  https://golang.org/doc/code.html#GOPATH
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=$HOME/golang
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 #
 # Less
