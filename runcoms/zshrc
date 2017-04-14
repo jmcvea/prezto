@@ -28,6 +28,11 @@ eval "$(rbenv init -)"
 # Setup Docker version management
 [[ -s "$(brew --prefix dvm)/dvm.sh" ]] && source "$(brew --prefix dvm)/dvm.sh"
 
+# Setup openwhisk autocomplete
+#if [[ -f "${HOME}/.local/bin/wsk_cli_bash_completion.sh" ]]; then
+#  source "${HOME}/.local/bin/wsk_cli_bash_completion.sh"
+#fi
+
 
 # ########################################################################
 # Aliases
@@ -53,11 +58,13 @@ alias t='todo.sh -d ~/Dropbox/todo/todo.cfg'
 
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
 alias dm='docker-machine'
+# alias ddsh='docker run --rm -it -v ${PWD}:/files dset-docker-registry:5000/dset-docker-machine'
+alias ddsh='docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/files registry.ng.bluemix.net/ibmbluemixsupport/dset-docker-machine:latest'
 alias dmenv='function _dmenv(){ eval $(docker-machine env $1); };_dmenv'
 alias icenv='function _icenv(){ export DOCKER_HOST=tcp://containers-api.ng.bluemix.net:8443; export DOCKER_CERT_PATH=/Users/jimmcvea/.ice/certs; export DOCKER_TLS_VERIFY=1; };_icenv'
 alias openstack='dosc openstack'
 # alias Whisk client calls with a docker image
-alias wsk='docker run -ti --rm -v $PWD:/data --env-file ${WSK_PROPS_FILE:-~/.wskprops} jmcvea/openwhisk-client'
+alias dwsk='docker run -ti --rm -v $PWD:/data --env-file ${WSK_PROPS_FILE:-~/.wskprops} jmcvea/openwhisk-client'
 
 alias git-pretty='git log --graph --oneline --all --decorate'
 
@@ -86,6 +93,21 @@ new-card() {
   osascript $HOME/.local/bin/open-sticky.scpt $PRIORITY "$CONTENT"
 }
 
+# Convert a .mov file to animated .gif
+mov2gif() {
+    ffmpeg -i "$1" -vf scale=800:-1 -r 10 -f image2pipe -vcodec ppm - |\
+    convert -delay 5 -layers Optimize -loop 0 - "${1%.*}.gif"
+}
+
+# Login for IBM containers
+iclogin() {
+  BEARER=$(cf oauth-token | awk '{ print $2; }')
+  ORG=$(cf target | awk '/Org:/ { print $2; }')
+  ORGID=$(cf org --guid $ORG)
+  #note that the requirement to append the org-id is being removed
+  docker login -u bearer -p "$BEARER|$ORGID" registry.ng.bluemix.net
+}
+
 # Simplify the login process for CloudFoundry
 jcf() {
   # A first arg may be the target env.  Default is YP
@@ -111,6 +133,8 @@ jcf() {
     "lyp")  local CF_API=https://api.eu-gb.bluemix.net;;
     "lys1") local CF_API=https://api.stage1.eu-gb.bluemix.net;;
     "syp")  local CF_API=https://api.au-syd.bluemix.net;;
+    "wyp")  local CF_API=https://api.us-east.bluemix.net;;
+    "fyp")  local CF_API=https://api.eu-de.bluemix.net;;
     *)      local CF_API=https://api.ng.bluemix.net;;
   esac
 
@@ -129,3 +153,10 @@ if [[ -s "/usr/local/Bluemix/bx/zsh_autocomplete" ]]; then
   source /usr/local/Bluemix/bx/zsh_autocomplete
 fi
 
+
+export PATH="$HOME/.yarn/bin:$PATH"
+
+# added by travis gem
+[ -f /Users/jimmcvea/.travis/travis.sh ] && source /Users/jimmcvea/.travis/travis.sh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
