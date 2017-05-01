@@ -24,4 +24,5 @@
 	url = http://github.com/frodenas/cf-zsh-autocomplete-plugin.git
 [submodule "modules/autosuggestions/external"]
 	path = modules/autosuggestions/external
-	url = https://github.com/tarruda/zsh-autosuggestions
+	url = http://github.com/zsh-users/zsh-autosuggestions.git
+
