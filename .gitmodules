@@ -1,6 +1,6 @@
 [submodule "modules/autosuggestions/external"]
 	path = modules/autosuggestions/external
-	url = https://github.com/zsh-users/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
 [submodule "modules/history-substring-search/external"]
 	path = modules/history-substring-search/external
 	url = https://github.com/zsh-users/zsh-history-substring-search.git
@@ -22,6 +22,4 @@
 [submodule "modules/cf/functions"]
 	path = modules/cf/functions
 	url = http://github.com/frodenas/cf-zsh-autocomplete-plugin.git
-[submodule "modules/autosuggestions/external"]
-	path = modules/autosuggestions/external
-	url = https://github.com/tarruda/zsh-autosuggestions
+
