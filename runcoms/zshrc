@@ -66,6 +66,9 @@ alias openstack='dosc openstack'
 # alias Whisk client calls with a docker image
 alias dwsk='docker run -ti --rm -v $PWD:/data --env-file ${WSK_PROPS_FILE:-~/.wskprops} jmcvea/openwhisk-client'
 
+# simplify access to secretkeeper
+alias sk='kubectl exec -it $(kubectl get po | grep secret-keeper | grep Running | cut -d" " -f1) -- /bin/sh'
+
 alias git-pretty='git log --graph --oneline --all --decorate'
 
 # NETWORKING
