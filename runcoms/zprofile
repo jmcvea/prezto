@@ -84,7 +84,7 @@ PERL5LIB="/Users/jimmcvea/perl5/lib/perl5"; export PERL5LIB;
 # As of go 1.2, a valid GOPATH is required to use the `go get` command:
 #  https://golang.org/doc/code.html#GOPATH
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/golang
+export GOPATH=$HOME/.golang
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 #
@@ -103,6 +103,13 @@ if (( $#commands[(i)lesspipe(|.sh)] )); then
 fi
 
 #
+# FZF find options to use `ripgrep` instead of `find`
+#
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{**/.git,**/node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+#
 # Temporary Files
 #
 
@@ -111,3 +118,4 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
+

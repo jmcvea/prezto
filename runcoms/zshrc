@@ -67,7 +67,8 @@ alias openstack='dosc openstack'
 alias dwsk='docker run -ti --rm -v $PWD:/data --env-file ${WSK_PROPS_FILE:-~/.wskprops} jmcvea/openwhisk-client'
 
 # simplify access to secretkeeper
-alias sk='kubectl exec -it $(kubectl get po | grep secret-keeper | grep Running | cut -d" " -f1) -- /bin/sh'
+#alias sk='kubectl exec -it $(kubectl get po | grep secret-keeper | grep Running | cut -d" " -f1) -- /bin/sh'
+alias k=kubectl
 
 alias git-pretty='git log --graph --oneline --all --decorate'
 
@@ -150,10 +151,29 @@ dosc() {
   docker run -ti --rm -v $PWD:/data --env-file ${OSC_RC_ENV_FILE:-~/.osc_rc.env} -e "OS_PASSWORD=$CF_PWD" jmcvea/openstack-client ${*}
 }
 
+# Simplify access to secret-keeper
+sk() {
+  jq -r "if .$1|type == \"object\" then
+    .$1|keys | \"Keys for .$1:\\n  \" + join(\"\\n  \")
+  else
+    .$1
+  end" $HOME/Box/acs-fabric-secrets/secrets.json
+  #docker run -it --rm registry.ng.bluemix.net/ibm-cloud-support/secret-keeper
+  #docker run -it --rm redis redis-cli -h sl-us-south-1-portal.22.dblayer.com -p 38099 -a KVZWQMNZMZJJGTPA $@
+}
+sk-keys() {
+  sk keys "secret:*$1*" | tr -d '"'
+}
+sk-show() {
+  sk get "$1" | tr -d '"'
+}
+sk-store() {
+  sk set "$1" "$2" | tr -d '"'
+}
 
 ### Added by the Bluemix CLI
-if [[ -s "/usr/local/Bluemix/bx/zsh_autocomplete" ]]; then
-  source /usr/local/Bluemix/bx/zsh_autocomplete
+if [[ -s "/usr/local/ibmcloud/autocomplete/zsh_autocomplete" ]]; then
+  source /usr/local/ibmcloud/autocomplete/zsh_autocomplete
 fi
 
 
@@ -163,3 +183,34 @@ export PATH="$HOME/.yarn/bin:$PATH"
 [ -f /Users/jimmcvea/.travis/travis.sh ] && source /Users/jimmcvea/.travis/travis.sh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#
+# Kubernetes prompt customization
+#
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+PS1='
+$(kube_ps1)'$PS1
+
+#
+# Set Kube configuration
+#
+kcfg() {
+  $(ic ks cluster-config --cluster ${1:-jimmcvea-cluster} --export)
+  export INGRESS_HOST=`ic ks cluster-get ${1:-jimmcvea-cluster} | grep "Ingress Subdomain:" | awk '{print $3}'`
+}
+
+#
+# Kubernetes proxied dashboard quick open
+#
+kdash() {
+  : ${KUBECONFIG:?"Need to set the env var KUBECONFIG before starting the dashboard"}
+  kubectl config view -o jsonpath='{.users[0].user.auth-provider.config.id-token}' | pbcopy
+  kubectl proxy &
+  DASH_PID=$!
+  echo "Kubernetes dashboard started.  PID=$DASH_PID"
+  echo "id-token is stored in your pastebin"
+  open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+}
+
