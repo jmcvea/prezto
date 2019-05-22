@@ -5,6 +5,10 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Enable profiling.  Comment/uncomment to control profiling
+# You will also need to address `zprof` at the end of this file
+# zmodload zsh/zprof
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -53,7 +57,7 @@ alias vdir='ls --color=auto --format=long'
 alias vi=vim
 
 #alias t='todo.sh -d /opt/todo.txt_cli-2.7/todo.cfg'
-alias t='todo.sh -d ~/Dropbox/todo/todo.cfg'
+# alias t='todo.sh -d ~/Dropbox/todo/todo.cfg'
 #alias th='todo.sh -d ~/Dropbox/todo/todohome.cfg'
 
 alias mongodb='mongod --config /usr/local/etc/mongod.conf'
@@ -197,8 +201,8 @@ $(kube_ps1)'$PS1
 # Set Kube configuration
 #
 kcfg() {
-  $(ic ks cluster-config --cluster ${1:-jimmcvea-cluster} --export)
-  export INGRESS_HOST=`ic ks cluster-get ${1:-jimmcvea-cluster} | grep "Ingress Subdomain:" | awk '{print $3}'`
+  $(ic ks cluster-config --cluster ${1:-veruca} --export)
+  export INGRESS_HOST=`ic ks cluster-get ${1:-veruca} | grep "Ingress Subdomain:" | awk '{print $3}'`
 }
 
 #
@@ -213,4 +217,14 @@ kdash() {
   echo "id-token is stored in your pastebin"
   open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 }
+
+#
+# Get open IBM Cloud incidents
+ic-incidents() {
+    curl -s https://cloud.ibm.com/status/getIncidences\?tz\=Etc/UTC | jq '.statusItems[] | select(.type == "incident") | select(.state != "resolved") | "ID:               "+.id+"\nTitle:            "+.shortDescription+"\nStart Time (UTC): "+((.outageStart/1000) | todate)+"\nRegions:          "+(.regions|join(", "))+"\nService:          "+.name+"\n\n"' -r
+}
+
+
+# Turn profiling off/on by commenting/uncommenting this line
+# zprof
 
