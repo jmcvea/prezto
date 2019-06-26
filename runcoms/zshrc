@@ -27,7 +27,7 @@ fi
 #source $(brew --prefix nvm)/nvm.sh
 
 # Setup Ruby
-eval "$(rbenv init -)"
+[[ -s "$(brew --prefix rbenv)/bin/rbenv" ]] && eval "$(rbenv init -)"
 
 # Setup Docker version management
 [[ -s "$(brew --prefix dvm)/dvm.sh" ]] && source "$(brew --prefix dvm)/dvm.sh"
@@ -36,6 +36,11 @@ eval "$(rbenv init -)"
 #if [[ -f "${HOME}/.local/bin/wsk_cli_bash_completion.sh" ]]; then
 #  source "${HOME}/.local/bin/wsk_cli_bash_completion.sh"
 #fi
+
+# Setup aws-cli autocomplete
+if [[ -s "$(brew --prefix awscli)/libexec/bin/aws_zsh_completer.sh" ]]; then
+  source "$(brew --prefix awscli)/libexec/bin/aws_zsh_completer.sh"
+fi
 
 
 # ########################################################################
@@ -193,9 +198,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 #
 # Kubernetes prompt customization
 #
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-PS1='
-$(kube_ps1)'$PS1
+# source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+# PS1='
+# $(kube_ps1)'$PS1
 
 #
 # Set Kube configuration
