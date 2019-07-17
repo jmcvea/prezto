@@ -19,7 +19,15 @@
 [submodule "modules/prompt/functions/pure"]
 	path = modules/prompt/external/pure
 	url = https://github.com/sindresorhus/pure.git
-[submodule "modules/cf/functions"]
-	path = modules/cf/functions
-	url = http://github.com/frodenas/cf-zsh-autocomplete-plugin.git
-
+[submodule "modules/fasd/external"]
+	path = modules/fasd/external
+	url = https://github.com/clvv/fasd.git
+[submodule "modules/prompt/external/async"]
+	path = modules/prompt/external/async
+	url = https://github.com/mafredri/zsh-async.git
+[submodule "modules/prompt/external/powerlevel9k"]
+	path = modules/prompt/external/powerlevel9k
+	url = https://github.com/bhilburn/powerlevel9k.git
+[submodule "modules/prompt/external/powerlevel10k"]
+	path = modules/prompt/external/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k.git

@@ -15,14 +15,18 @@ The format of the [git-log][8] output is configurable via the following style,
 where context is *brief*, *oneline*, and *medium*, which will be passed to the
 `--pretty=format:` switch.
 
-    zstyle ':prezto:module:git:log:context' format ''
+```sh
+zstyle ':prezto:module:git:log:context' format ''
+```
 
 ### Status
 
 Retrieving the status of a repository with submodules can take a long time.
 Submodules may be ignored when they are *dirty*, *untracked*, *all*, or *none*.
 
-    zstyle ':prezto:module:git:status:ignore' submodules 'all'
+```sh
+zstyle ':prezto:module:git:status:ignore' submodules 'all'
+```
 
 This setting affects all aliases and functions that call `git-status`.
 
@@ -31,7 +35,9 @@ Aliases
 
 Aliases are enabled by default. You can disable them with:
 
-    zstyle ':prezto:module:git:alias' skip 'yes'
+```sh
+zstyle ':prezto:module:git:alias' skip 'yes'
+```
 
 ### Git
 
@@ -41,15 +47,17 @@ Aliases are enabled by default. You can disable them with:
 
   - `gb` lists, creates, renames, and deletes branches.
   - `gbc` creates a new branch.
-  - `gbl` lists branches and their commits.
-  - `gbL` lists local and remote branches and their commits.
+  - `gbl` lists branches and their commits. (also `gbv`)
+  - `gbL` lists all local and remote branches and their commits.
+  - `gbr` renames a branch. (also `gbm`)
+  - `gbR` renames a branch even if the new branch name already exists. (also
+    `gbM`)
   - `gbs` lists branches and their commits with ancestry graphs.
   - `gbS` lists local and remote branches and their commits with ancestry
     graphs.
-  - `gbx` deletes a branch.
-  - `gbX` deletes a branch irrespective of its merged status.
-  - `gbm` renames a branch.
-  - `gbM` renames a branch even if the new branch name already exists.
+  - `gbV` lists branches with more verbose information about their commits.
+  - `gbx` deletes a branch. (also `gbd`)
+  - `gbX` deletes a branch irrespective of its merged status. (also `gbD`)
 
 
 ### Commit
@@ -57,18 +65,26 @@ Aliases are enabled by default. You can disable them with:
   - `gc` records changes to the repository.
   - `gca` stages all modified and deleted files.
   - `gcm` records changes to the repository with the given message.
+  - `gcS` records changes to the repository. (Signed)
+  - `gcSa` stages all modified and deleted files. (Signed)
+  - `gcSm` records changes to the repository with the given message. (Signed)
+  - `gcam` stages all modified and deleted files, and records changes to the repository with the given message.
   - `gco` checks out a branch or paths to work tree.
   - `gcO` checks out hunks from the index or the tree interactively.
-  - `gcf` amends the tip of the current branch using the same log message as
-    *HEAD*.
+  - `gcf` amends the tip of the current branch using the same log message as *HEAD*.
+  - `gcSf` amends the tip of the current branch using the same log message as *HEAD*. (Signed)
   - `gcF` amends the tip of the current branch.
+  - `gcSF` amends the tip of the current branch. (Signed)
   - `gcp` applies changes introduced by existing commits.
   - `gcP` applies changes introduced by existing commits without committing.
   - `gcr` reverts existing commits by reverting patches and recording new
      commits.
   - `gcR` removes the *HEAD* commit.
   - `gcs` displays various types of objects.
+  - `gcsS` displays commits with GPG signature.
   - `gcl` lists lost commits.
+  - `gcy` displays commits yet to be applied to upstream in the short format.
+  - `gcY` displays commits yet to be applied to upstream.
 
 ### Conflict
 
@@ -93,7 +109,9 @@ Aliases are enabled by default. You can disable them with:
 ### Fetch
 
   - `gf` downloads objects and references from another repository.
+  - `gfa` downloads objects and references from all remote repositories.
   - `gfc` clones a repository into a new directory.
+  - `gfcr` clones a repository into a new directory including all submodules.
   - `gfm` fetches from and merges with another repository or local branch.
   - `gfr` fetches from and rebases on another repository or local branch.
 
@@ -187,6 +205,8 @@ Aliases are enabled by default. You can disable them with:
   - `giu` adds file contents to the index (updates only known files).
   - `gid` displays changes between the index and a named commit (diff).
   - `giD` displays changes between the index and a named commit (word diff).
+  - `gii` temporarily ignore differences in a given file.
+  - `giI` unignore differences in a given file.
   - `gir` resets the current HEAD to the specified state.
   - `giR` resets the current index interactively.
   - `gix` removes files/directories from the index (recursively).
@@ -201,6 +221,7 @@ Aliases are enabled by default. You can disable them with:
   - `glg` displays the graph log.
   - `glb` displays the brief commit log.
   - `glc` displays the commit count for each contributor in descending order.
+  - `glS` displays the log and checks the validity of signed commits.
 
 ### Merge
 
@@ -214,7 +235,8 @@ Aliases are enabled by default. You can disable them with:
 ### Push
 
   - `gp` updates remote refs along with associated objects.
-  - `gpf` forcefully updates remote refs along with associated objects.
+  - `gpf` forcefully updates remote refs along with associated objects using the safer `--force-with-lease` option.
+  - `gpF` forcefully updates remote refs along with associated objects using the riskier `--force` option.
   - `gpa` updates remote branches along with associated objects.
   - `gpA` updates remote branches and tags along with associated objects.
   - `gpt` updates remote tags along with associated objects.
@@ -271,6 +293,13 @@ Aliases are enabled by default. You can disable them with:
   - `gSu` fetches and merges the latest changes for all submodule.
   - `gSx` removes a submodule.
 
+### Tag
+
+  - `gt` lists tags or creates tag.
+  - `gtl` lists tags matching pattern.
+  - `gts` creates a signed tag.
+  - `gtv` validate a signed tag.
+
 ### Working directory
 
   - `gws` displays working-tree status in the short format.
@@ -290,9 +319,10 @@ Aliases are enabled by default. You can disable them with:
 
 The following aliases may shadow system commands:
 
-  - `gpt` shadows the [GUID partition table maintenance utility][4].
-  - `gs` shadows the [Ghostscript][5].
   - `gb` shadows the [GB][9].
+  - `gm` shadows the [Graphics Magick image processor][11].
+  - `gpt` shadows the [GUID partition table maintenance utility][4].
+  - `gs` shadows the [Ghostscript interpreter and previewer][5].
 
 If you frequently use the above commands, you may wish to remove said aliases
 from this module or to disable them at the bottom of the zshrc with `unalias`.
@@ -307,7 +337,7 @@ Functions
   - `git-commit-lost` lists lost commits.
   - `git-dir` displays the path to the Git directory.
   - `git-hub-browse` opens the [GitHub][3] repository in the default browser.
-  - `git-hub-shorten-url` shortens GitHub URLs.
+  - `git-hub-shorten-url` shortens [GitHub URLs][10].
   - `git-info` exposes repository information via the `$git_info` associative
     array.
   - `git-root` displays the path to the working tree root.
@@ -324,7 +354,9 @@ To display information about the current repository in a prompt, define the
 following styles in the `prompt_name_setup` function, where the syntax for
 setting a style is as follows.
 
-    zstyle ':prezto:module:git:info:context:subcontext' format 'string'
+```sh
+zstyle ':prezto:module:git:info:context:subcontext' format 'string'
+```
 
 ### Main Contexts
 
@@ -351,7 +383,9 @@ setting a style is as follows.
 
 The following contexts must be enabled with the following zstyle:
 
-    zstyle ':prezto:module:git:info' verbose 'yes'
+```sh
+zstyle ':prezto:module:git:info' verbose 'yes'
+```
 
 ### Verbose Contexts
 
@@ -378,18 +412,24 @@ The following contexts must be enabled with the following zstyle:
 | rebase               |    value    | Rebasing
 | rebase-interactive   |    value    | Rebasing interactively
 | rebase-merge         |    value    | Rebasing merge
+| revert               |    value    | Reverting
+| revert-sequence      |    value    | Reverting sequence
 
 First, format the repository state attributes. For example, to format the branch
 and remote names, define the following styles.
 
-    zstyle ':prezto:module:git:info:branch' format 'branch:%b'
-    zstyle ':prezto:module:git:info:remote' format 'remote:%R'
+```sh
+zstyle ':prezto:module:git:info:branch' format 'branch:%b'
+zstyle ':prezto:module:git:info:remote' format 'remote:%R'
+```
 
 Second, format how the above attributes are displayed in prompts.
 
-    zstyle ':prezto:module:git:info:keys' format \
-      'prompt'  ' git(%b)' \
-      'rprompt' '[%R]'
+```sh
+zstyle ':prezto:module:git:info:keys' format \
+  'prompt'  ' git(%b)' \
+  'rprompt' '[%R]'
+```
 
 Last, add `$git_info[prompt]` to `$PROMPT` and `$git_info[rprompt]` to
 `$RPROMPT` respectively and call `git-info` in the `prompt_name_preexec` hook
@@ -407,8 +447,10 @@ Authors
 [2]: https://github.com/defunkt/hub
 [3]: https://www.github.com
 [4]: http://www.manpagez.com/man/8/gpt/
-[5]: http://linux.die.net/man/1/gs
+[5]: http://www.manpagez.com/man/1/gs/
 [6]: https://github.com/sorin-ionescu/prezto/issues
 [7]: https://github.com/sorin-ionescu/prezto/issues/219
 [8]: http://www.kernel.org/pub/software/scm/git/docs/git-log.html
 [9]: https://getgb.io/
+[10]: https://github.com/blog/985-git-io-github-url-shortener
+[11]: http://www.manpagez.com/man/1/gm/
