@@ -214,14 +214,37 @@ kcfg() {
 # Kubernetes proxied dashboard quick open
 #
 kdash() {
-  : ${KUBECONFIG:?"Need to set the env var KUBECONFIG before starting the dashboard"}
-  kubectl config view -o jsonpath='{.users[0].user.auth-provider.config.id-token}' | pbcopy
+  # : ${KUBECONFIG:?"Need to set the env var KUBECONFIG before starting the dashboard"}
+  kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}') | grep -E '^token' | cut -f2 -d':' | tr -d " " | pbcopy
+  # kubectl config view -o jsonpath='{.users[0].user.auth-provider.config.id-token}' | pbcopy
   kubectl proxy &
   DASH_PID=$!
   echo "Kubernetes dashboard started.  PID=$DASH_PID"
   echo "id-token is stored in your pastebin"
   open http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 }
+
+#
+# Decode JWT tokens
+#
+decode_base64_url() {
+  local len=$((${#1} % 4))
+  local result="$1"
+  if [ $len -eq 2 ]; then result="$1"'=='
+  elif [ $len -eq 3 ]; then result="$1"'='
+  fi
+  echo "$result" | tr '_-' '/+' | openssl enc -d -base64
+}
+
+decode_jwt(){
+   decode_base64_url $(echo -n $2 | cut -d "." -f $1) | jq .
+}
+
+# Decode JWT header
+alias jwth="decode_jwt 1"
+
+# Decode JWT Payload
+alias jwtp="decode_jwt 2"
 
 #
 # Get open IBM Cloud incidents
