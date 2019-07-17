@@ -3,3 +3,4 @@
 modules/*/cache.zsh
 modules/completion/custom/in_progress/
 
+contrib

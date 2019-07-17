@@ -32,33 +32,49 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
 
   # Branch (b)
   alias gb='git branch'
+  alias gba='git branch --all --verbose'
   alias gbc='git checkout -b'
-  alias gbl='git branch -v'
-  alias gbL='git branch -av'
-  alias gbx='git branch -d'
-  alias gbX='git branch -D'
-  alias gbm='git branch -m'
-  alias gbM='git branch -M'
+  alias gbd='git branch --delete'
+  alias gbD='git branch --delete --force'
+  alias gbl='git branch --verbose'
+  alias gbL='git branch --all --verbose'
+  alias gbm='git branch --move'
+  alias gbM='git branch --move --force'
+  alias gbr='git branch --move'
+  alias gbR='git branch --move --force'
   alias gbs='git show-branch'
-  alias gbS='git show-branch -a'
+  alias gbS='git show-branch --all'
+  alias gbv='git branch --verbose'
+  alias gbV='git branch --verbose --verbose'
+  alias gbx='git branch --delete'
+  alias gbX='git branch --delete --force'
 
   # Commit (c)
   alias gc='git commit --verbose'
   alias gca='git commit --verbose --all'
   alias gcm='git commit --message'
+  alias gcS='git commit -S --verbose'
+  alias gcSa='git commit -S --verbose --all'
+  alias gcSm='git commit -S --message'
+  alias gcam='git commit --all --message'
   alias gco='git checkout'
   alias gcO='git checkout --patch'
   alias gcf='git commit --amend --reuse-message HEAD'
+  alias gcSf='git commit -S --amend --reuse-message HEAD'
   alias gcF='git commit --verbose --amend'
+  alias gcSF='git commit -S --verbose --amend'
   alias gcp='git cherry-pick --ff'
   alias gcP='git cherry-pick --no-commit'
   alias gcr='git revert'
   alias gcR='git reset "HEAD^"'
   alias gcs='git show'
+  alias gcsS='git show --pretty=short --show-signature'
   alias gcl='git-commit-lost'
+  alias gcy='git cherry -v --abbrev'
+  alias gcY='git cherry -v'
 
   # Conflict (C)
-  alias gCl='git status | sed -n "s/^.*both [a-z]*ed: *//p"'
+  alias gCl='git --no-pager diff --name-only --diff-filter=U'
   alias gCa='git add $(gCl)'
   alias gCe='git mergetool $(gCl)'
   alias gCo='git checkout --ours --'
@@ -77,7 +93,9 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
 
   # Fetch (f)
   alias gf='git fetch'
+  alias gfa='git fetch --all'
   alias gfc='git clone'
+  alias gfcr='git clone --recurse-submodules'
   alias gfm='git pull'
   alias gfr='git pull --rebase'
 
@@ -158,6 +176,8 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
   alias giu='git add --update'
   alias gid='git diff --no-ext-diff --cached'
   alias giD='git diff --no-ext-diff --cached --word-diff'
+  alias gii='git update-index --assume-unchanged'
+  alias giI='git update-index --no-assume-unchanged'
   alias gir='git reset'
   alias giR='git reset --patch'
   alias gix='git rm -r --cached'
@@ -171,6 +191,7 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
   alias glg='git log --topo-order --all --graph --pretty=format:"${_git_log_oneline_format}"'
   alias glb='git log --topo-order --pretty=format:"${_git_log_brief_format}"'
   alias glc='git shortlog --summary --numbered'
+  alias glS='git log --show-signature'
 
   # Merge (m)
   alias gm='git merge'
@@ -232,6 +253,12 @@ if ! zstyle -t ':prezto:module:git:alias' skip 'yes'; then
   alias gSs='git submodule sync'
   alias gSu='git submodule foreach git pull origin master'
   alias gSx='git-submodule-remove'
+
+  # Tag (t)
+  alias gt='git tag'
+  alias gtl='git tag -l'
+  alias gts='git tag -s'
+  alias gtv='git verify-tag'
 
   # Working Copy (w)
   alias gws='git status --ignore-submodules=${_git_status_ignore_submodules} --short'
